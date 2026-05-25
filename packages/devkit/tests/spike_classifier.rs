@@ -9,25 +9,46 @@ fn classify_below_threshold_returns_none() {
 
 #[test]
 fn classify_low_severity() {
-    assert_eq!(SpikeClassifier::classify(200, 100), Some(SpikeSeverity::Low));
-    assert_eq!(SpikeClassifier::classify(499, 100), Some(SpikeSeverity::Low));
+    assert_eq!(
+        SpikeClassifier::classify(200, 100),
+        Some(SpikeSeverity::Low)
+    );
+    assert_eq!(
+        SpikeClassifier::classify(499, 100),
+        Some(SpikeSeverity::Low)
+    );
 }
 
 #[test]
 fn classify_medium_severity() {
-    assert_eq!(SpikeClassifier::classify(500, 100), Some(SpikeSeverity::Medium));
-    assert_eq!(SpikeClassifier::classify(999, 100), Some(SpikeSeverity::Medium));
+    assert_eq!(
+        SpikeClassifier::classify(500, 100),
+        Some(SpikeSeverity::Medium)
+    );
+    assert_eq!(
+        SpikeClassifier::classify(999, 100),
+        Some(SpikeSeverity::Medium)
+    );
 }
 
 #[test]
 fn classify_high_severity() {
-    assert_eq!(SpikeClassifier::classify(1_000, 100), Some(SpikeSeverity::High));
-    assert_eq!(SpikeClassifier::classify(4_999, 100), Some(SpikeSeverity::High));
+    assert_eq!(
+        SpikeClassifier::classify(1_000, 100),
+        Some(SpikeSeverity::High)
+    );
+    assert_eq!(
+        SpikeClassifier::classify(4_999, 100),
+        Some(SpikeSeverity::High)
+    );
 }
 
 #[test]
 fn classify_critical_severity() {
-    assert_eq!(SpikeClassifier::classify(5_001, 100), Some(SpikeSeverity::Critical));
+    assert_eq!(
+        SpikeClassifier::classify(5_001, 100),
+        Some(SpikeSeverity::Critical)
+    );
 }
 
 #[test]

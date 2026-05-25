@@ -18,7 +18,10 @@ mod tests;
 
 pub use config::InsightsConfig;
 pub use engine::FeeInsightsEngine;
+#[allow(unused_imports)]
 pub use error::InsightsError;
 pub use horizon_adapter::HorizonFeeDataProvider;
-pub use provider::{FeeDataProvider, ProviderMetadata};
+pub use provider::FeeDataProvider;
+#[allow(unused_imports)]
+pub use provider::ProviderMetadata;
 pub use types::*;

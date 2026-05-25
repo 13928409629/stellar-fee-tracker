@@ -146,11 +146,7 @@ async fn main() {
         .filter_map(|o| match o.parse() {
             Ok(v) => Some(v),
             Err(err) => {
-                tracing::warn!(
-                    "Skipping invalid ALLOWED_ORIGINS entry '{}': {}",
-                    o,
-                    err
-                );
+                tracing::warn!("Skipping invalid ALLOWED_ORIGINS entry '{}': {}", o, err);
                 None
             }
         })
@@ -206,7 +202,9 @@ async fn main() {
     // Business routes that require optional API-key auth.
     let api_routes = Router::new()
         .merge(fees_router)
-        .merge(api::insights::create_insights_router(insights_engine.clone()))
+        .merge(api::insights::create_insights_router(
+            insights_engine.clone(),
+        ))
         .merge(
             Router::new()
                 .route(
@@ -280,13 +278,9 @@ async fn main() {
     );
 
     // Rate-limited tier: metrics + business API routes.
-    let rate_limited = Router::new()
-        .merge(metrics_route)
-        .merge(api_routes)
-        .layer(axum::middleware::from_fn_with_state(
-            rate_limit_state,
-            enforce_rate_limit,
-        ));
+    let rate_limited = Router::new().merge(metrics_route).merge(api_routes).layer(
+        axum::middleware::from_fn_with_state(rate_limit_state, enforce_rate_limit),
+    );
 
     // Final app: /health bypasses the rate limiter entirely.
     let app = Router::new()

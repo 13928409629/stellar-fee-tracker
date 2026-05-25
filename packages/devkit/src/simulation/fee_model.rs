@@ -46,9 +46,7 @@ impl FeeModelConfig {
                 "base_fee must be greater than zero".to_string(),
             ));
         }
-        if !self.spike_probability.is_finite()
-            || !(0.0..=1.0).contains(&self.spike_probability)
-        {
+        if !self.spike_probability.is_finite() || !(0.0..=1.0).contains(&self.spike_probability) {
             return Err(DevkitError::Simulation(
                 "spike_probability must be a finite value between 0.0 and 1.0".to_string(),
             ));
@@ -109,7 +107,8 @@ impl FeeModel {
         for i in 0..count {
             let is_spike = self.rng.gen::<f64>() < self.config.spike_probability;
             let base = if self.config.noise_factor > 0.0 {
-                let noise = gaussian_noise(&mut self.rng) * self.config.noise_factor
+                let noise = gaussian_noise(&mut self.rng)
+                    * self.config.noise_factor
                     * self.config.base_fee as f64;
                 (self.config.base_fee as f64 + noise).max(1.0) as u64
             } else {
@@ -133,14 +132,19 @@ impl FeeModel {
     /// Generate a single fee sample in stroops (accounts for noise and spike probability).
     pub fn sample_fee(&mut self) -> u64 {
         let base = if self.config.noise_factor > 0.0 {
-            let noise = gaussian_noise(&mut self.rng) * self.config.noise_factor
+            let noise = gaussian_noise(&mut self.rng)
+                * self.config.noise_factor
                 * self.config.base_fee as f64;
             (self.config.base_fee as f64 + noise).max(1.0) as u64
         } else {
             self.config.base_fee
         };
         let is_spike = self.rng.gen::<f64>() < self.config.spike_probability;
-        if is_spike { base * self.config.spike_multiplier } else { base }
+        if is_spike {
+            base * self.config.spike_multiplier
+        } else {
+            base
+        }
     }
 
     /// Generate `count` fee values in stroops (accounts for noise and spike probability).

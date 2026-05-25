@@ -6,13 +6,11 @@
 #[cfg(test)]
 #[allow(clippy::module_inception)]
 mod tests {
-    use super::super::*;
     use crate::insights::{
         calculator::RollingAverageCalculator,
         config::{AverageConfig, ExtremesConfig, InsightsConfig, SpikeConfig},
         detector::CongestionDetector,
         engine::FeeInsightsEngine,
-        error::InsightsError,
         tracker::ExtremesTracker,
         types::*,
     };
@@ -939,7 +937,10 @@ mod tests {
         let config = InsightsConfig::default();
         let mut engine = FeeInsightsEngine::new(config);
 
-        assert!(engine.get_last_update().is_none(), "fresh engine has no last_update");
+        assert!(
+            engine.get_last_update().is_none(),
+            "fresh engine has no last_update"
+        );
 
         let now = Utc::now();
         let fee_data = vec![FeeDataPoint {
@@ -950,6 +951,9 @@ mod tests {
         }];
 
         let _result = tokio_test::block_on(engine.process_fee_data(&fee_data));
-        assert!(engine.get_last_update().is_some(), "last_update set after processing");
+        assert!(
+            engine.get_last_update().is_some(),
+            "last_update set after processing"
+        );
     }
 }

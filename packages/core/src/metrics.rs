@@ -125,7 +125,6 @@ mod tests {
         metrics.fee_points_stored.set(42.0);
         assert!((metrics.fee_points_stored.get() - 42.0).abs() < f64::EPSILON);
     }
-
 }
 
 #[cfg(test)]

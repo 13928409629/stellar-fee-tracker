@@ -51,12 +51,22 @@ impl Percentile {
         let max = sorted[n - 1];
         let mean = sorted.iter().map(|&x| x as f64).sum::<f64>() / n as f64;
         let median = Self::nearest_rank(sorted, 50);
-        let variance =
-            sorted.iter().map(|&x| (x as f64 - mean).powi(2)).sum::<f64>() / n as f64;
+        let variance = sorted
+            .iter()
+            .map(|&x| (x as f64 - mean).powi(2))
+            .sum::<f64>()
+            / n as f64;
         let std_dev = variance.sqrt();
         let ps = [10, 20, 30, 40, 50, 60, 70, 80, 90, 99];
         let percentiles = ps.map(|p| Self::nearest_rank(sorted, p));
-        Some(FeeDistributionSummary { min, max, mean, median, std_dev, percentiles })
+        Some(FeeDistributionSummary {
+            min,
+            max,
+            mean,
+            median,
+            std_dev,
+            percentiles,
+        })
     }
 }
 

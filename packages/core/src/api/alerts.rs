@@ -98,7 +98,8 @@ fn is_safe_webhook_url(url: &str) -> bool {
 
     // Catch bare numeric prefixes for common internal ranges not covered above.
     if host.starts_with("169.254.") // link-local / AWS metadata
-        || host.starts_with("100.64.")  // shared address space (RFC 6598)
+        || host.starts_with("100.64.")
+    // shared address space (RFC 6598)
     {
         return false;
     }

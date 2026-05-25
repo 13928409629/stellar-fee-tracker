@@ -94,10 +94,7 @@ impl HorizonMock {
             return Ok(canned.clone());
         }
         let path = self.scenario_path.clone().unwrap_or_else(|| {
-            std::path::PathBuf::from(format!(
-                "src/harness/scenarios/{}.json",
-                self.scenario
-            ))
+            std::path::PathBuf::from(format!("src/harness/scenarios/{}.json", self.scenario))
         });
         crate::harness::scenarios::load_from_file(&path)
     }

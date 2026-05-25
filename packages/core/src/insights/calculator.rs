@@ -161,5 +161,4 @@ impl RollingAverageCalculator {
             time_window: time_window.clone(),
         })
     }
-
 }

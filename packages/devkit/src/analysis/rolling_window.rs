@@ -8,7 +8,10 @@ impl RollingWindow {
     /// Create a new rolling window of the given size. Panics if `window == 0`.
     pub fn new(window: usize) -> Self {
         assert!(window > 0, "window size must be > 0");
-        Self { window, buf: std::collections::VecDeque::with_capacity(window) }
+        Self {
+            window,
+            buf: std::collections::VecDeque::with_capacity(window),
+        }
     }
 
     /// Push a new fee value and return the current SMA if the window is full.

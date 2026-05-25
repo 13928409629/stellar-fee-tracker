@@ -19,6 +19,7 @@ use crate::services::horizon::HorizonClient;
 /// Adapter that implements FeeDataProvider for HorizonClient
 pub struct HorizonFeeDataProvider {
     client: HorizonClient,
+    #[allow(dead_code)]
     metadata: ProviderMetadata,
 }
 

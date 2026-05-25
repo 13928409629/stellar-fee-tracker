@@ -285,6 +285,7 @@ impl CongestionDetector {
     }
 
     /// Clear all spike history (useful for testing or reset scenarios)
+    #[allow(dead_code)]
     pub fn clear_history(&mut self) {
         self.trend_analyzer.recent_spikes.clear();
         self.historical_spikes.clear();

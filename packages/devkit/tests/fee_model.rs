@@ -85,7 +85,10 @@ fn baseline_output_length() {
 fn baseline_values_in_range() {
     let fees = FeeModel::baseline(50);
     for fee in &fees {
-        assert!(*fee >= 100.0 && *fee <= 1_000_000.0, "fee out of range: {fee}");
+        assert!(
+            *fee >= 100.0 && *fee <= 1_000_000.0,
+            "fee out of range: {fee}"
+        );
     }
 }
 

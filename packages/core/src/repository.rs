@@ -264,6 +264,7 @@ impl FeeRepository {
     // ---- Alert event logging ----
 
     /// Log a fired alert event (success or failure).
+    #[allow(dead_code)]
     pub async fn log_alert_event(&self, event: &AlertEvent) -> Result<(), sqlx::Error> {
         let delivered_int: i64 = if event.delivered { 1 } else { 0 };
 

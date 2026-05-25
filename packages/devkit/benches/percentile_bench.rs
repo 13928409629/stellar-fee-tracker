@@ -11,13 +11,17 @@ fn bench_percentile_algorithms(c: &mut Criterion) {
         b.iter(|| Percentile::nearest_rank(d, 50))
     });
 
-    group.bench_with_input(BenchmarkId::new("linear_interpolation", "p50"), &data, |b, d| {
-        b.iter(|| Percentile::linear_interpolation(d, 50))
-    });
+    group.bench_with_input(
+        BenchmarkId::new("linear_interpolation", "p50"),
+        &data,
+        |b, d| b.iter(|| Percentile::linear_interpolation(d, 50)),
+    );
 
-    group.bench_with_input(BenchmarkId::new("fee_distribution_summary", "all"), &data, |b, d| {
-        b.iter(|| Percentile::fee_distribution_summary(d))
-    });
+    group.bench_with_input(
+        BenchmarkId::new("fee_distribution_summary", "all"),
+        &data,
+        |b, d| b.iter(|| Percentile::fee_distribution_summary(d)),
+    );
 
     group.finish();
 }

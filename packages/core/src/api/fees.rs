@@ -151,7 +151,9 @@ pub async fn current_fees(
     // tokio::sync::Mutex is safe to hold across .await points.
     let mut cache = state.fee_cache.lock().await;
     let payload = if cache.is_fresh() {
-        cache.get().expect("cache freshness invariant violated: is_fresh() but get() is None")
+        cache
+            .get()
+            .expect("cache freshness invariant violated: is_fresh() but get() is None")
     } else {
         let provider = state.fee_stats_provider.as_ref().ok_or_else(|| {
             AppError::Config("Fee stats provider missing from fees state".to_string())

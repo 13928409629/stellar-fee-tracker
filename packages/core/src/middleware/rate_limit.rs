@@ -99,7 +99,9 @@ impl RateLimitState {
 fn evict_stale_buckets(state: &RateLimitState) {
     // 2× the typical replenish window gives every IP a fair grace period.
     let cutoff = Instant::now() - Duration::from_secs(120);
-    state.buckets.retain(|_, bucket| bucket.last_refill >= cutoff);
+    state
+        .buckets
+        .retain(|_, bucket| bucket.last_refill >= cutoff);
 }
 
 pub async fn enforce_rate_limit(
@@ -156,7 +158,7 @@ fn extract_client_ip(request: &Request) -> IpAddr {
     // Only honour X-Forwarded-For when the connection arrives from a trusted
     // proxy (localhost), so an attacker cannot spoof their IP to bypass the
     // per-IP rate limit by simply setting this header.
-    let from_trusted_proxy = peer_ip.map_or(false, |ip| ip.is_loopback());
+    let from_trusted_proxy = peer_ip.is_some_and(|ip| ip.is_loopback());
 
     if from_trusted_proxy {
         if let Some(forwarded_ip) = request
