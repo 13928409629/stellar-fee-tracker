@@ -103,7 +103,7 @@ fn interpolation_p0_p25_p50_p75_p100_known_slice() {
     assert_eq!(Percentile::linear_interpolation(&data, 100), 80);
     // p50 should be between 40 and 50
     let p50 = Percentile::linear_interpolation(&data, 50);
-    assert!(p50 >= 40 && p50 <= 50, "p50={p50} not in [40,50]");
+    assert!((40..=50).contains(&p50), "p50={p50} not in [40,50]");
 }
 
 #[test]
