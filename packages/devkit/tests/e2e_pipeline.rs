@@ -19,7 +19,10 @@ fn e2e_simulate_classify_export() {
 
     let fees: Vec<u64> = records.iter().map(|r| r.fee).collect();
     let outliers = SpikeClassifier::iqr_outliers(&fees);
-    assert!(!outliers.is_empty(), "expected spikes at 20% probability over 200 ledgers");
+    assert!(
+        !outliers.is_empty(),
+        "expected spikes at 20% probability over 200 ledgers"
+    );
 
     // Build CSV in memory
     let mut csv = String::from("ledger,fee,timestamp\n");

@@ -133,29 +133,47 @@ fn iqr_outliers_extreme_high_value_detected() {
     let mut fees = vec![100u64; 20];
     fees[7] = 1_000_000;
     let outliers = SpikeClassifier::iqr_outliers(&fees);
-    assert!(outliers.contains(&7), "extreme high value at index 7 should be an outlier");
+    assert!(
+        outliers.contains(&7),
+        "extreme high value at index 7 should be an outlier"
+    );
 }
 
 #[test]
 fn classify_exactly_2x_is_low() {
-    assert_eq!(SpikeClassifier::classify(200, 100), Some(SpikeSeverity::Low));
+    assert_eq!(
+        SpikeClassifier::classify(200, 100),
+        Some(SpikeSeverity::Low)
+    );
 }
 
 #[test]
 fn classify_exactly_5x_is_medium() {
-    assert_eq!(SpikeClassifier::classify(500, 100), Some(SpikeSeverity::Medium));
+    assert_eq!(
+        SpikeClassifier::classify(500, 100),
+        Some(SpikeSeverity::Medium)
+    );
 }
 
 #[test]
 fn classify_exactly_10x_is_high() {
-    assert_eq!(SpikeClassifier::classify(1_000, 100), Some(SpikeSeverity::High));
+    assert_eq!(
+        SpikeClassifier::classify(1_000, 100),
+        Some(SpikeSeverity::High)
+    );
 }
 
 #[test]
 fn classify_above_50x_is_critical() {
     // 50× boundary: strictly > 50 → Critical
-    assert_eq!(SpikeClassifier::classify(5_001, 100), Some(SpikeSeverity::Critical));
-    assert_eq!(SpikeClassifier::classify(10_000, 100), Some(SpikeSeverity::Critical));
+    assert_eq!(
+        SpikeClassifier::classify(5_001, 100),
+        Some(SpikeSeverity::Critical)
+    );
+    assert_eq!(
+        SpikeClassifier::classify(10_000, 100),
+        Some(SpikeSeverity::Critical)
+    );
 }
 
 #[test]

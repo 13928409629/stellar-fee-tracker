@@ -104,7 +104,7 @@ fn push_beyond_capacity_evicts_oldest() {
     rw.push(10.0);
     rw.push(20.0);
     rw.push(30.0); // window full: [10, 20, 30], sma = 20
-    // Push 40 — evicts 10 → [20, 30, 40], sma = 30
+                   // Push 40 — evicts 10 → [20, 30, 40], sma = 30
     let sma = rw.push(40.0);
     assert!(sma.is_some());
     assert!((sma.unwrap() - 30.0).abs() < 1e-9);

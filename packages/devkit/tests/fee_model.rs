@@ -112,7 +112,10 @@ fn validate_zero_base_fee_errors() {
         base_fee: 0,
         ..Default::default()
     };
-    assert!(config.validate().is_err(), "zero base_fee should fail validation");
+    assert!(
+        config.validate().is_err(),
+        "zero base_fee should fail validation"
+    );
 }
 
 #[test]
@@ -121,7 +124,10 @@ fn validate_spike_probability_above_one_errors() {
         spike_probability: 1.1,
         ..Default::default()
     };
-    assert!(config.validate().is_err(), "spike_probability > 1.0 should fail");
+    assert!(
+        config.validate().is_err(),
+        "spike_probability > 1.0 should fail"
+    );
 }
 
 #[test]
@@ -130,7 +136,10 @@ fn validate_negative_spike_probability_errors() {
         spike_probability: -0.1,
         ..Default::default()
     };
-    assert!(config.validate().is_err(), "negative spike_probability should fail");
+    assert!(
+        config.validate().is_err(),
+        "negative spike_probability should fail"
+    );
 }
 
 #[test]
@@ -139,7 +148,10 @@ fn validate_zero_spike_multiplier_errors() {
         spike_multiplier: 0,
         ..Default::default()
     };
-    assert!(config.validate().is_err(), "zero spike_multiplier should fail");
+    assert!(
+        config.validate().is_err(),
+        "zero spike_multiplier should fail"
+    );
 }
 
 #[test]
@@ -158,7 +170,11 @@ fn run_output_len_equals_ledger_count() {
         ..Default::default()
     };
     let points = FeeModel::run(&config);
-    assert_eq!(points.len(), 50, "run() should produce exactly ledger_count points");
+    assert_eq!(
+        points.len(),
+        50,
+        "run() should produce exactly ledger_count points"
+    );
 }
 
 #[test]
@@ -195,12 +211,18 @@ fn run_identical_seeds_produce_identical_output() {
 
 #[test]
 fn predict_boundary_tx_200_is_moderate() {
-    assert_eq!(CongestionPredictor::predict(200, 0), CongestionLevel::Moderate);
+    assert_eq!(
+        CongestionPredictor::predict(200, 0),
+        CongestionLevel::Moderate
+    );
 }
 
 #[test]
 fn predict_boundary_fee_300_is_moderate() {
-    assert_eq!(CongestionPredictor::predict(0, 300), CongestionLevel::Moderate);
+    assert_eq!(
+        CongestionPredictor::predict(0, 300),
+        CongestionLevel::Moderate
+    );
 }
 
 #[test]
@@ -210,25 +232,43 @@ fn predict_boundary_tx_500_is_high() {
 
 #[test]
 fn predict_boundary_fee_1000_is_high() {
-    assert_eq!(CongestionPredictor::predict(0, 1_000), CongestionLevel::High);
+    assert_eq!(
+        CongestionPredictor::predict(0, 1_000),
+        CongestionLevel::High
+    );
 }
 
 #[test]
 fn predict_boundary_tx_800_is_critical() {
-    assert_eq!(CongestionPredictor::predict(800, 0), CongestionLevel::Critical);
+    assert_eq!(
+        CongestionPredictor::predict(800, 0),
+        CongestionLevel::Critical
+    );
 }
 
 #[test]
 fn predict_boundary_fee_5000_is_critical() {
-    assert_eq!(CongestionPredictor::predict(0, 5_000), CongestionLevel::Critical);
+    assert_eq!(
+        CongestionPredictor::predict(0, 5_000),
+        CongestionLevel::Critical
+    );
 }
 
 #[test]
 fn predict_all_four_congestion_levels() {
     assert_eq!(CongestionPredictor::predict(10, 50), CongestionLevel::Low);
-    assert_eq!(CongestionPredictor::predict(300, 100), CongestionLevel::Moderate);
-    assert_eq!(CongestionPredictor::predict(600, 100), CongestionLevel::High);
-    assert_eq!(CongestionPredictor::predict(900, 100), CongestionLevel::Critical);
+    assert_eq!(
+        CongestionPredictor::predict(300, 100),
+        CongestionLevel::Moderate
+    );
+    assert_eq!(
+        CongestionPredictor::predict(600, 100),
+        CongestionLevel::High
+    );
+    assert_eq!(
+        CongestionPredictor::predict(900, 100),
+        CongestionLevel::Critical
+    );
 }
 
 // ── Issue #178: congestion_score() ────────────────────────────────────────────
@@ -252,7 +292,10 @@ fn congestion_score_zero_inputs_is_zero() {
         spike_count: 0,
     };
     let score = congestion_score(&input);
-    assert!((score - 0.0).abs() < 1e-9, "all-zero inputs should score 0.0");
+    assert!(
+        (score - 0.0).abs() < 1e-9,
+        "all-zero inputs should score 0.0"
+    );
 }
 
 #[test]
@@ -281,7 +324,10 @@ fn congestion_score_full_inputs_clamps_to_1() {
         spike_count: 100,
     };
     let score = congestion_score(&input);
-    assert!((score - 1.0).abs() < 1e-9, "saturated inputs should clamp to 1.0");
+    assert!(
+        (score - 1.0).abs() < 1e-9,
+        "saturated inputs should clamp to 1.0"
+    );
 }
 
 #[test]
