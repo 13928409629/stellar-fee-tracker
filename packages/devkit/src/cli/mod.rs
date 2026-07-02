@@ -409,9 +409,15 @@ impl FeeSummary {
 // ---------------------------------------------------------------------------
 
 /// Developer toolkit for the Stellar fee tracker.
+///
+/// Use `--quiet` to suppress all output except errors (useful for scripting).
 #[derive(Parser)]
 #[command(name = "devkit", about = "Stellar fee tracker developer toolkit")]
 pub struct Cli {
+    /// Suppress all output except errors and the final result.
+    #[arg(long, short = 'q', global = true)]
+    pub quiet: bool,
+
     #[command(subcommand)]
     pub command: Commands,
 }
@@ -421,7 +427,11 @@ pub enum Commands {
     /// Replay recorded fee scenarios
     Replay,
     /// Export data to external formats
-    Export,
+    Export {
+        /// Perform a dry run — show what would be written without writing it.
+        #[arg(long)]
+        dry_run: bool,
+    },
     /// Run performance benchmarks
     Benchmark,
     /// Serve mock fee data
@@ -481,5 +491,37 @@ pub enum Commands {
         /// Output format: text or json
         #[arg(long, default_value = "text", value_name = "FORMAT")]
         output_format: String,
+    /// Run devkit health checks
+    Health {
+        /// Output results as JSON.
+        #[arg(long)]
+        json: bool,
+        /// Path to the SQLite database to check.
+        #[arg(long, default_value = "stellar_fees.db")]
+        db_path: String,
+        /// Run only a specific named check.
+        #[arg(long)]
+        check: Option<String>,
+    },
+    /// Print the devkit metrics report
+    Metrics {
+        /// Output results as JSON.
+        #[arg(long)]
+        json: bool,
+        /// Reset all counters after displaying.
+        #[arg(long)]
+        reset: bool,
+    },
+    /// Detect and repair data quality issues in fee data
+    Repair {
+        /// Show what would be changed without applying any repairs.
+        #[arg(long)]
+        dry_run: bool,
+        /// Output the repair report as JSON.
+        #[arg(long)]
+        json: bool,
+        /// Only detect and report issues; do not plan repairs.
+        #[arg(long)]
+        check_only: bool,
     },
 }
